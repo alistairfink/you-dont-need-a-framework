@@ -5,12 +5,7 @@ import (
 )
 
 type containerCache struct {
-	// Handlers
 	httpServer *handlers.HttpServer
-
-	// Repositories
-
-	// Core
 }
 
 type Container struct {
