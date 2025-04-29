@@ -12,6 +12,7 @@ func (c *Container) HttpServer() (*handlers.HttpServer, error) {
 			c.env.HttpPort,
 			// In reverse order since these are wrapped in layers (like an onion)
 			// We could change this to top down by changing the processing order in http_server.go
+			// When a request is received it will go to loggerMiddleware, responseHeaderMiddleware, then the handler 
 			[]handlers.Middleware{
 				c.responseHeaderMiddleware(),
 				c.loggerMiddleware(),
