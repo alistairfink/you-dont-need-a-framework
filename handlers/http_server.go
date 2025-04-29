@@ -12,10 +12,10 @@ type Handler interface {
 }
 
 type route struct {
-	method  string
-	path    string
-	secure  bool
-	handler func(w http.ResponseWriter, r *http.Request)
+	method      string
+	path        string
+	logResponse bool
+	handler     func(w http.ResponseWriter, r *http.Request)
 }
 
 func (r *route) getRoute() string {

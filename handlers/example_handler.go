@@ -33,7 +33,8 @@ func (h *ExampleHandler) initializeRoutes() []route {
 }
 
 func (h *ExampleHandler) createMessage(w http.ResponseWriter, r *http.Request) {
-	logger := slog.Default()
+	logger, _ := r.Context().Value("logger").(*slog.Logger)
+	logger.Info("test")
 	var params exampleRequest
 	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
 		logger.Error("Error decoding params", slog.Any("error", err))

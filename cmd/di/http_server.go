@@ -6,14 +6,13 @@ import (
 
 func (c *Container) HttpServer() (*handlers.HttpServer, error) {
 	if c.cache.httpServer == nil {
-		exampleHandler, err := c.exampleHandler()
-		if err != nil {
-			return nil, err
-		}
+		exampleHandler := c.exampleHandler()
 
 		c.cache.httpServer = handlers.NewHttpServer(
 			c.env.HttpPort,
-			[]handlers.Middleware{},
+			[]handlers.Middleware{
+				c.loggerMiddleware(),
+			},
 			exampleHandler,
 		)
 	}
@@ -21,10 +20,10 @@ func (c *Container) HttpServer() (*handlers.HttpServer, error) {
 	return c.cache.httpServer, nil
 }
 
-func (c *Container) exampleHandler() (*handlers.ExampleHandler, error) {
-	if c.cache.exampleHandler == nil {
-		c.cache.exampleHandler = handlers.NewExampleHandler()
-	}
+func (c *Container) exampleHandler() *handlers.ExampleHandler {
+	return handlers.NewExampleHandler()
+}
 
-	return c.cache.exampleHandler, nil
+func (c *Container) loggerMiddleware() handlers.Middleware {
+	return handlers.NewLoggerMiddleware()
 }

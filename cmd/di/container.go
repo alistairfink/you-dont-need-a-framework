@@ -6,8 +6,7 @@ import (
 
 type containerCache struct {
 	// Handlers
-	httpServer     *handlers.HttpServer
-	exampleHandler *handlers.ExampleHandler
+	httpServer *handlers.HttpServer
 
 	// Repositories
 
