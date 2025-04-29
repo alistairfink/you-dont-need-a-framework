@@ -10,7 +10,10 @@ func (c *Container) HttpServer() (*handlers.HttpServer, error) {
 
 		c.cache.httpServer = handlers.NewHttpServer(
 			c.env.HttpPort,
+			// In reverse order since these are wrapped in layers (like an onion)
+			// We could change this to top down by changing the processing order in http_server.go
 			[]handlers.Middleware{
+				c.responseHeaderMiddleware(),
 				c.loggerMiddleware(),
 			},
 			exampleHandler,
@@ -26,4 +29,8 @@ func (c *Container) exampleHandler() *handlers.ExampleHandler {
 
 func (c *Container) loggerMiddleware() handlers.Middleware {
 	return handlers.NewLoggerMiddleware()
+}
+
+func (c *Container) responseHeaderMiddleware() handlers.Middleware {
+	return handlers.NewResponseHeaderMiddleware()
 }
